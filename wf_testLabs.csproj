@@ -57,6 +57,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="model\contexts\CProductContext.cs" />
+    <Compile Include="model\entities\CCooler.cs" />
+    <Compile Include="model\entities\CCoolerProduct.cs" />
     <Compile Include="model\entities\CProduct.cs" />
     <Compile Include="model\entities\CRecipe.cs" />
     <Compile Include="FmCooler.cs">

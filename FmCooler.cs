@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using wf_testLabs.model.contexts;
+using wf_testLabs.model.entities;
 
 namespace wf_testLabs
 {
@@ -18,7 +19,7 @@ namespace wf_testLabs
             InitializeComponent();
             using (CProductContext rProductContext = new CProductContext())
             {
-                CProduct rPotato = new CProduct {Name = "Картофель", Type = 2, Amount = 3 };
+                CProduct rPotato = new CProduct {Name = "Картофель", Type = 2};
 
                 rProductContext.Products.Add(rPotato);
                 rProductContext.SaveChanges();
@@ -26,7 +27,7 @@ namespace wf_testLabs
                 Console.WriteLine("Список объектов:");
                 foreach (CProduct rProduct in aProducts)
                 {
-                    Console.WriteLine("{0}.{1} - {2}", rProduct.Id, rProduct.Name, rProduct.Amount);
+                    Console.WriteLine("{0}.{1} ", rProduct.Id, rProduct.Name);
                 }
             }
         }

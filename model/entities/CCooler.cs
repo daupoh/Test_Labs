@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace wf_testLabs.model.entities
 {
-    class CProduct
+    class CCooler
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Type { get; set; }
+        public ICollection<CCoolerProduct> Products { get; set; }
 
-        public ICollection<CRecipeProduct> Recipes { get; set; }
-
-        public CProduct ()
+        public CCooler()
         {
-            Recipes = new List<CRecipeProduct>();
+            Products = new List<CCoolerProduct>();
         }
-
     }
 }
