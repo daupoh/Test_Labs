@@ -102,6 +102,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="packages\SonarAnalyzer.CSharp.8.0.0.9566\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="packages\SonarAnalyzer.CSharp.8.0.0.9566\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="packages\SonarAnalyzer.CSharp.8.0.0.9566\analyzers\SonarAnalyzer.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
