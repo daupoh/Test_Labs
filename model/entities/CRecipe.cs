@@ -8,6 +8,7 @@ namespace wf_testLabs.model.entities
 {
     class CRecipe
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public ICollection<CRecipeProduct> RecipeProducts { get; set; }
         public string Descriptions { get; set; }

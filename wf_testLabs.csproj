@@ -56,7 +56,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="model\builders\CCoolerBuilder.cs" />
+    <Compile Include="model\builders\CRecipeBuilder.cs" />
+    <Compile Include="model\contexts\CCoolerContext.cs" />
+    <Compile Include="model\contexts\CCoolerProductContext.cs" />
     <Compile Include="model\contexts\CProductContext.cs" />
+    <Compile Include="model\contexts\CRecipeContext.cs" />
+    <Compile Include="model\contexts\CRecipeProductContext.cs" />
     <Compile Include="model\entities\CCooler.cs" />
     <Compile Include="model\entities\CCoolerProduct.cs" />
     <Compile Include="model\entities\CProduct.cs" />
