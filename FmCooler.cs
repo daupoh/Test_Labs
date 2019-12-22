@@ -12,7 +12,8 @@ namespace wf_testLabs
             InitializeComponent();
             using (CProductContext rProductContext = new CProductContext())
             {
-                CProduct rPotato = new CProduct {Name = "Картофель", Type = 2};
+                int i = 2;
+                CProduct rPotato = new CProduct {Name = "Картофель", Type = i+4};
 
                 rProductContext.Products.Add(rPotato);
                 rProductContext.SaveChanges();

@@ -5,6 +5,8 @@ namespace wf_testLabs.model.builders
 {
     class CCoolerBuilder
     {
+        int i;
+
         public CCooler Build()
         {
             CCooler rCooler = new CCooler();
