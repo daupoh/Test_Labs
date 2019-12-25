@@ -28,13 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.DgvGraph = new System.Windows.Forms.DataGridView();
+            this.TbxShortPath = new System.Windows.Forms.TextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvGraph)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // DgvGraph
+            // 
+            this.DgvGraph.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DgvGraph.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.DgvGraph.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvGraph.Location = new System.Drawing.Point(12, 12);
+            this.DgvGraph.Name = "DgvGraph";
+            this.DgvGraph.Size = new System.Drawing.Size(240, 150);
+            this.DgvGraph.TabIndex = 0;
+            // 
+            // TbxShortPath
+            // 
+            this.TbxShortPath.Location = new System.Drawing.Point(258, 12);
+            this.TbxShortPath.Multiline = true;
+            this.TbxShortPath.Name = "TbxShortPath";
+            this.TbxShortPath.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TbxShortPath.Size = new System.Drawing.Size(237, 239);
+            this.TbxShortPath.TabIndex = 1;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.TbxShortPath);
+            this.Controls.Add(this.DgvGraph);
+            this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.DgvGraph)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.DataGridView DgvGraph;
+        private System.Windows.Forms.TextBox TbxShortPath;
     }
 }
 
