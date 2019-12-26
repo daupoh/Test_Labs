@@ -34,74 +34,101 @@ namespace wf_testLabs
             }
             else if (IsPathGraphCorrect(aGraphDistances))
             {
-                int iVertexCount = aGraphDistances.Length;
-                int[] aDijkstraPath = new int[iVertexCount];
-                double[] aDijkstraDistances = new double[iVertexCount];
+                int iVertexCount = aGraphDistances.Length,
+                    iNextVertex;
+                int[] aVisited = new int[iVertexCount], 
+                    aClosestPath = new int[iVertexCount];
+                double[] aShortestDistances = new double[iVertexCount];
                 for (int i = 0; i < iVertexCount; i++)
-                {             
-                    aDijkstraDistances[i] = double.MaxValue;
-                    aDijkstraPath[i] = -1;                    
-                }                
-                aDijkstraDistances[iStart] = 0;
-                aDijkstraPath[0] = iStart;
-                double fDistance = 0;
-                int iPos = 0, iNextVertex = FindMinNotVisited(aGraphDistances[aDijkstraPath[iPos]], aDijkstraPath, ref aDijkstraDistances, fDistance);
-                Console.WriteLine("Первая следующая вершина {0}", iNextVertex);
-                while (iNextVertex!=iFinish)
                 {
-                    fDistance += aGraphDistances[aDijkstraPath[iPos]][iNextVertex];
-                    iPos++;
-                    aDijkstraPath[iPos] = iNextVertex;
-                    Console.WriteLine("Следующая вершина {0}", iNextVertex);
-                    iNextVertex = FindMinNotVisited(aGraphDistances[aDijkstraPath[iPos]], aDijkstraPath, ref aDijkstraDistances, fDistance);
-                   
-                }               
-                return aDijkstraPath;
+                    aShortestDistances[i] = double.MaxValue;
+                    aVisited[i] = 0;
+                    aClosestPath[i] = -1;
+                }
+                aShortestDistances[iStart] = 0;
+                aVisited[iStart] = 1;
+                aClosestPath[iStart] = 0;
+                iNextVertex = UpdateDistances(iStart, aGraphDistances[iStart],aVisited,ref aClosestPath,ref aShortestDistances);
+                while (!AllVisited(aVisited))
+                {
+                    aVisited[iNextVertex] = 1;
+                    iNextVertex = UpdateDistances(iNextVertex, aGraphDistances[iNextVertex],aVisited,ref aClosestPath,ref aShortestDistances);                    
+                }                
+                return GetPath(aClosestPath,iStart,iFinish);
             }
             else
             {
                 throw new InvalidOperationException(sDeikstraInvalidErrorText);
             }
         }
-        private static int FindMinNotVisited(double[] aDistance,int[] aVisited,ref double[] aDijkstraDistances, double fDistance)
+        private static bool AllVisited(int[] aVisited)
         {
-            int iMinPos = -1;
-            double fMin = double.MaxValue;
-            for (int i = 0; i < aDistance.Length; i++)
-            {
-                if (!AlreadyVisited(aVisited, i))
-                {
-                    if (aDistance[i]>0)
-                    {
-                        if ((aDistance[i]+fDistance)<aDijkstraDistances[i])
-                        {
-                            aDijkstraDistances[i] = aDistance[i] + fDistance;
-                        }
-                        if (aDijkstraDistances[i]<fMin)
-                        {
-                            iMinPos = i;
-                            fMin = aDijkstraDistances[i];
-                        }
-                    }
-                }
-
-            }
-            return iMinPos;
-        }
-        private static bool AlreadyVisited(int[] aVisited, int iPos)
-        {
-            bool bVisited = false;
+            bool bAllVisited = true;
             for (int i = 0; i < aVisited.Length; i++)
             {
-                if (aVisited[i]==iPos)
+                if (aVisited[i]==0)
                 {
-                    bVisited = true;
+                    bAllVisited = false;
                     break;
                 }
             }
-            return bVisited;
+            return bAllVisited;
+        }
+        private static int UpdateDistances(int iPosFrom, double[] aDistances,int[] aVisited, ref int[] aClosestVertex, ref double[] aShortestDistances)
+        {
+            double fMin = double.MaxValue;
+            int iMinPos = -1;
+            for (int i = 0; i < aDistances.Length; i++)
+            {
+                if (aDistances[i]>0 && aVisited[i]==0)
+                {
+                    Console.WriteLine("Compare {0} with {1}", aShortestDistances[iPosFrom] + aDistances[i], aShortestDistances[i]);
+                    if (aShortestDistances[iPosFrom]+aDistances[i]<aShortestDistances[i])
+                    {
+                        aShortestDistances[i] = aShortestDistances[iPosFrom] + aDistances[i];
+                        aClosestVertex[i] = iPosFrom;
+                        Console.WriteLine("Update closest distances and vertex on {0}",iPosFrom);
+                    }
+                    if (aShortestDistances[i]<fMin)
+                    {
+                        fMin = aShortestDistances[i];
+                        iMinPos = i;
+                    }
+                } 
+            }
+            Console.WriteLine("Next vertex is {0}", iMinPos);
+            return iMinPos;
         }
         
+       private static int[] GetPath(int[] aClosestPath, int iStart, int iFinish)
+        {
+            int[] aPath = new int[aClosestPath.Length], aResultPath;
+            for (int i = 0; i < aPath.Length; i++)
+            {
+                aPath[i] = -1;
+            }
+            int iLastPos = iFinish, iPos = aClosestPath.Length - 1, iLen=1;
+            aPath[iPos--] = iLastPos;
+            while (iLastPos!=iStart)
+            {
+                iLastPos = aClosestPath[iLastPos];
+                aPath[iPos--] = iLastPos;
+                iLen++;
+            }
+            iPos = 0;
+            aResultPath = new int[iLen];
+            for (int i = 0; i < aPath.Length; i++)
+            {
+                if (aPath[i]>=0)
+                {
+                    aResultPath[iPos++] = aPath[i];
+                }
+            }
+            return aResultPath;
+        }
+      
+       
+      
         private static bool IsPathGraphCorrect(double[][] aPathGraph)
         {
             bool bIsIt = true;

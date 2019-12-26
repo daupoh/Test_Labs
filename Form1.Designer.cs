@@ -38,8 +38,10 @@
             this.DgvGraph.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DgvGraph.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.DgvGraph.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvGraph.ColumnHeadersVisible = false;
             this.DgvGraph.Location = new System.Drawing.Point(12, 12);
             this.DgvGraph.Name = "DgvGraph";
+            this.DgvGraph.RowHeadersVisible = false;
             this.DgvGraph.Size = new System.Drawing.Size(240, 150);
             this.DgvGraph.TabIndex = 0;
             // 

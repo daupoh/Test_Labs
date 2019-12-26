@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace wf_testLabs
@@ -15,37 +8,47 @@ namespace wf_testLabs
         public Form1()
         {
             InitializeComponent();
-            int iSize = 4, iRandomDistance=20, iRound= 2;
+            int iSize = 5, iRandomDistance=20, iRound= 2;
             double[][] aGraph = GetGraph(iSize, iRandomDistance);
             DgvGraph.RowCount = iSize;
             DgvGraph.ColumnCount = iSize;
             for (int i = 0; i < iSize; i++)
             {
+                DgvGraph.Rows[i].HeaderCell.Value = i;
+                
                 for (int j = 0; j < iSize; j++)
                 {
                     DgvGraph[i, j].Value = Math.Round(aGraph[i][j], iRound);
+                    DgvGraph.Columns[j].HeaderCell.Value = j;
                 }
             }
-            for (int j = 1; j < iSize; j++)
+            for (int k = 0; k < iSize; k++)
             {
-                TbxShortPath.Text += "\r\nКратчайший путь из 0 в " +j.ToString()+ "\r\n";
-                int[] aPath = SCAlgorithms.DijkstraPath(aGraph, 0, j);
-                double fLength = GetPathLength(aPath, aGraph);
-                TbxShortPath.Text += "Кратчайший путь: {" + aPath[0].ToString();
-                for (int i = 0; i < aPath.Length; i++)
+                for (int j = 0; j < iSize; j++)
                 {
-                    if (aPath[i] != -1)
+                    if (k != j)
                     {
-                        TbxShortPath.Text += "," + aPath[i].ToString();
-                    }
-                    else
-                    {
-                        break;
+                        TbxShortPath.Text += "\r\nКратчайший путь из " + k.ToString() + " в " + j.ToString() + "\r\n";
+                        int[] aPath = SCAlgorithms.DijkstraPath(aGraph, k, j);
+                        double fLength = GetPathLength(aPath, aGraph);
+                        TbxShortPath.Text += "Кратчайший путь: {" + aPath[0].ToString();
+                        for (int i = 1; i < aPath.Length; i++)
+                        {
+                            if (aPath[i] != -1)
+                            {
+                                TbxShortPath.Text += "," + aPath[i].ToString();
+                            }
+                            else
+                            {
+                                break;
+                            }
+
+                        }
+                        TbxShortPath.Text += "}" + "\r\n" + "Длина пути: " + Math.Round(fLength, iRound).ToString();
+                        TbxShortPath.Text += "\r\n";
                     }
                 }
-                TbxShortPath.Text += "}" + "\r\n" + "Длина пути: " + Math.Round(fLength, iRound).ToString();
-                TbxShortPath.Text += "\r\n";
-            }            
+            }
         }
         private double GetPathLength(int[] aPath, double[][] aGraph)
         {
