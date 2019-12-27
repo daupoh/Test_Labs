@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 namespace wf_testLabs
 {
     class CAvlTree
@@ -35,7 +35,14 @@ namespace wf_testLabs
         }
         public void AddNode(int fNodeKey) 
         {
-            
+            if (Root == null)
+            {
+                Root = new CAvlNode(fNodeKey);
+            }
+            else
+            {
+                Root.AddNode(fNodeKey);
+            }
         }
         public CAvlNode FindNode (int fNodeKey) 
         {
@@ -47,5 +54,6 @@ namespace wf_testLabs
         {
 
         }
+
     }
 }
