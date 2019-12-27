@@ -45,8 +45,8 @@ namespace wf_testLabs
         public void TestHeightTree()
         {
             AddNodesToTree();
-            Assert.IsTrue(rTree.Root.Height.Equals(3), "Высота дерева должна быть равна {0}",3);
-            Assert.IsTrue(rTree.Root.LeftSon.Height.Equals(2), "Высота левого поддерева должна быть равна {0}", 2);
+            Assert.IsTrue(rTree.Root.Height.Equals(4), "Высота дерева должна быть равна {0}, а равна {1}",4, rTree.Root.Height);
+            Assert.IsTrue(rTree.Root.LeftSon.Height.Equals(3), "Высота левого поддерева должна быть равна {0}", 3);
             Assert.IsTrue(rTree.Root.RightSon.Height.Equals(2), "Высота правого поддерева должна быть равна {0}", 2);
         }
         [Test]
