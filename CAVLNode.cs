@@ -45,31 +45,55 @@ namespace wf_testLabs
             LeftSon = null;
             RightSon = null;
         }
-        public void AddNode(int fNodeKey)
+        public void AddNode(int iNodeKey)
         {
-            if (fNodeKey>Key)
+            if (iNodeKey>Key)
             {
                 if (RightSon!=null)
                 {
-                    RightSon.AddNode(fNodeKey);
+                    RightSon.AddNode(iNodeKey);
                 }
                 else
                 {
-                    RightSon = new CAvlNode(fNodeKey);
+                    RightSon = new CAvlNode(iNodeKey);
                 }
             } 
             else
             {
                 if (LeftSon != null)
                 {
-                    LeftSon.AddNode(fNodeKey);
+                    LeftSon.AddNode(iNodeKey);
                 }
                 else
                 {
-                    LeftSon = new CAvlNode(fNodeKey);
+                    LeftSon = new CAvlNode(iNodeKey);
                 }
             }
             Balance();
+        }
+        public CAvlNode FindNode(int iNodeKey)
+        {
+            CAvlNode rNode=null;
+            if (iNodeKey==Key)
+            {
+                rNode = this;
+            }
+            else if (iNodeKey > Key)
+            {
+                if (RightSon != null)
+                {
+                    rNode = RightSon.FindNode(iNodeKey);
+                }              
+            }
+            else
+            {
+                if (LeftSon != null)
+                {
+                    rNode = LeftSon.FindNode(iNodeKey);
+                }
+               
+            }            
+            return rNode;
         }
        
         private void Balance()

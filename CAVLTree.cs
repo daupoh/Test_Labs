@@ -44,11 +44,9 @@ namespace wf_testLabs
                 Root.AddNode(fNodeKey);
             }
         }
-        public CAvlNode FindNode (int fNodeKey) 
-        {
-            CAvlNode rFindedNode = null; 
-            
-            return rFindedNode; 
+        public CAvlNode FindNode (int iNodeKey) 
+        {            
+            return Root.FindNode(iNodeKey);
         }
         public void DeleteNode(int fNodeKey)
         {

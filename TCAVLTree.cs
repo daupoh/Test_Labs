@@ -37,9 +37,9 @@ namespace wf_testLabs
         {
             AddNodesToTree();
             CAvlNode rNode = rTree.FindNode(3);
-            Assert.IsTrue(rNode.Key.Equals(3), "Найденный элемент должен иметь ключ {0}", 3);
-            Assert.IsTrue(rNode.LeftSon.Key.Equals(2), "Левый сын найденного элемента должен иметь ключ {0}", 2);
-            Assert.IsTrue(rNode.RightSon.Key.Equals(3), "Правый сын найденного элемента должен иметь ключ {0}", 4);
+            Assert.IsTrue(rNode.Key.Equals(3), "Найденный элемент должен иметь ключ {0}", 3);           
+            rNode = rTree.FindNode(10);
+            Assert.IsNull(rNode);
         }
         [Test]
         public void TestHeightTree()
