@@ -4,6 +4,27 @@ namespace wf_testLabs
     class CAvlTree
     {        
         public CAvlNode Root { get; private set; }
+        public int Height
+        {
+            get
+            {
+                return Root.Height;
+            }
+        }
+        public int LeftTreeHeight 
+        {
+            get
+            {
+                return Root.LeftSon.Height;
+            } 
+        }
+        public int RightTreeHeight
+        {
+            get
+            {
+                return Root.RightSon.Height;
+            }
+        }
         public CAvlTree ()
         {
             Root = null;
