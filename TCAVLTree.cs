@@ -49,17 +49,7 @@ namespace wf_testLabs
             Assert.IsTrue(rTree.Root.LeftSon.Height.Equals(3), "Высота левого поддерева должна быть равна {0}", 3);
             Assert.IsTrue(rTree.Root.RightSon.Height.Equals(2), "Высота правого поддерева должна быть равна {0}", 2);
         }
-        [Test]
-        public void TestDeleteNode()
-        {
-            AddNodesToTree();
-            rTree.DeleteNode(5);
-            rTree.DeleteNode(4);
-            CAvlNode rDeletedNode = rTree.FindNode(5),
-                rNonDeletedNode = rTree.FindNode(3);
-            Assert.IsNull(rDeletedNode, "Удаленный узел не должен быть найден.");
-            Assert.IsNotNull(rNonDeletedNode, "Не удаленный узел должен быть найден.");
-        }
+       
         private void AddNodesToTree()
         {
             rTree.AddNode(5);

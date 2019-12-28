@@ -1,9 +1,9 @@
 ﻿using System;
 namespace wf_testLabs
 {
-    class CAvlNode
+    class CAvlNode: IDisposable
     {   
-        public int Key { get; }
+        public int Key { get; private set; }
         public CAvlNode LeftSon { get; private set; }
         public CAvlNode RightSon { get; private set; }
         public int Height
@@ -45,6 +45,7 @@ namespace wf_testLabs
             LeftSon = null;
             RightSon = null;
         }
+        
         public void AddNode(int iNodeKey)
         {
             if (iNodeKey>Key)
@@ -95,26 +96,39 @@ namespace wf_testLabs
             }            
             return rNode;
         }
+        public void Dispose()
+        {
+            if (LeftSon != null)
+            {
+                LeftSon.Dispose();
+            }
+            if (RightSon != null)
+            {
+                RightSon.Dispose();
+            }
+            LeftSon = null;
+            RightSon = null;
+        }
        
         private void Balance()
         {
             int iHeightDifference = HeightDifference;
-            if (iHeightDifference==2)
+            if (iHeightDifference == 2)
             {
-                if (RightSon!=null && RightSon.HeightDifference<0)
+                if (RightSon != null && RightSon.HeightDifference < 0)
                 {
                     RightSon.RightTurn();
                 }
                 LeftTurn();
             }
-            else if (iHeightDifference==-2)
+            else if (iHeightDifference == -2)
             {
-                if (LeftSon!=null && LeftSon.HeightDifference>0)
+                if (LeftSon != null && LeftSon.HeightDifference > 0)
                 {
                     LeftSon.LeftTurn();
                 }
                 RightTurn();
-            } 
+            }
         }
         private void RightTurn()
         {

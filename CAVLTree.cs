@@ -31,27 +31,37 @@ namespace wf_testLabs
         }
         public void Destroy()
         {
-
+            if (Root == null)
+            {
+                Root.Dispose();
+                Root = null;
+            }
         }
-        public void AddNode(int fNodeKey) 
+        public void AddNode(int iNodeKey) 
         {
             if (Root == null)
             {
-                Root = new CAvlNode(fNodeKey);
+                Root = new CAvlNode(iNodeKey);
             }
             else
             {
-                Root.AddNode(fNodeKey);
+                Root.AddNode(iNodeKey);
             }
         }
         public CAvlNode FindNode (int iNodeKey) 
-        {            
-            return Root.FindNode(iNodeKey);
-        }
-        public void DeleteNode(int fNodeKey)
         {
-
+            CAvlNode rNode;
+            if (Root == null)
+            {
+                rNode = null;
+            }
+            else
+            {
+                rNode = Root.FindNode(iNodeKey);
+            }
+            return rNode;
         }
+      
 
     }
 }
