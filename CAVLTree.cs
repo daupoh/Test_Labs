@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace wf_testLabs
 {
     class CAvlTree
@@ -9,6 +11,13 @@ namespace wf_testLabs
             get
             {
                 return Root.Height;
+            }
+        }
+        public int HeightDifference
+        {
+            get
+            {
+                return Root.HeightDifference;
             }
         }
         public int LeftTreeHeight 
@@ -37,6 +46,15 @@ namespace wf_testLabs
                 Root = null;
             }
         }
+        public int[] ToArray()
+        {
+            int[] aTree = null;
+            if (Root != null)
+            {
+                aTree = Root.ToArray(new List<int>(),Root).ToArray();
+            }            
+            return aTree;
+        }
         public void AddNode(int iNodeKey) 
         {
             if (Root == null)
@@ -45,8 +63,15 @@ namespace wf_testLabs
             }
             else
             {
-                Root.AddNode(iNodeKey);
+                Root = Root.AddNode(iNodeKey, Root);
             }
+        }
+        public void DeleteNode(int iNodeKey)
+        {            
+            if (Root != null)
+            {
+                Root = Root.DeleteNode(iNodeKey,Root);
+            }            
         }
         public CAvlNode FindNode (int iNodeKey) 
         {

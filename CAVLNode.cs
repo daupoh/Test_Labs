@@ -1,28 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace wf_testLabs
 {
-    class CAvlNode: IDisposable
-    {   
+    class CAvlNode
+    {
         public int Key { get; private set; }
+        public int Height { get; private set; }
         public CAvlNode LeftSon { get; private set; }
         public CAvlNode RightSon { get; private set; }
-        public int Height
-        {
-            get
-            {
-                int iHeight = 1, iLeftHeight=0, iRightHeight=0;
-                if (LeftSon!=null)
-                {
-                    iLeftHeight += LeftSon.Height;
-                }
-                if (RightSon!= null)
-                {
-                    iRightHeight += RightSon.Height;
-                }
-                iHeight += Math.Max(iLeftHeight, iRightHeight);
-                return iHeight;
-            }
-        }
+
         public int HeightDifference
         {
             get
@@ -44,38 +31,69 @@ namespace wf_testLabs
             Key = iKey;
             LeftSon = null;
             RightSon = null;
+            Height = 1;
+
         }
-        
-        public void AddNode(int iNodeKey)
+        public CAvlNode DeleteNode(int iNodeKey, CAvlNode rRoot)
         {
-            if (iNodeKey>Key)
+            CAvlNode rNode = null;
+            if (rRoot != null)
             {
-                if (RightSon!=null)
+                if (iNodeKey < rRoot.Key)
                 {
-                    RightSon.AddNode(iNodeKey);
+                    rRoot.LeftSon = DeleteNode(iNodeKey, rRoot.LeftSon);
+                    rNode = Balance(rRoot);
+                }
+                else if (iNodeKey > rRoot.Key)
+                {
+                    rRoot.RightSon = DeleteNode(iNodeKey, rRoot.RightSon);
+                    rNode = Balance(rRoot);
                 }
                 else
                 {
-                    RightSon = new CAvlNode(iNodeKey);
-                }
-            } 
+                    CAvlNode rLeft = rRoot.LeftSon,
+                        rRight = rRoot.RightSon;
+                    rRoot = null;
+                    if (rRight == null)
+                    {
+                        rNode = rLeft;
+                    }
+                    else
+                    {
+                        CAvlNode rMin = FindMin(rRight);
+                        rMin.RightSon = DeleteMin(rRight);
+                        rMin.LeftSon = rLeft;
+                        Balance(rMin);
+                        rNode = rMin;
+                    }
+                }                
+            }
+            return rNode;
+        }
+        public CAvlNode AddNode(int iNodeKey, CAvlNode rRoot)
+        {
+            CAvlNode rNode = null;
+            if (rRoot==null)
+            {
+                rNode = new CAvlNode(iNodeKey);
+                
+            }
+            else if (iNodeKey > rRoot.Key)
+            {
+                rRoot.RightSon = AddNode(iNodeKey,rRoot.RightSon);
+                rNode = Balance(rRoot);
+            }
             else
             {
-                if (LeftSon != null)
-                {
-                    LeftSon.AddNode(iNodeKey);
-                }
-                else
-                {
-                    LeftSon = new CAvlNode(iNodeKey);
-                }
-            }
-            Balance();
+                rRoot.LeftSon = AddNode(iNodeKey, rRoot.LeftSon);
+                rNode = Balance(rRoot);
+            }            
+            return rNode;
         }
         public CAvlNode FindNode(int iNodeKey)
         {
-            CAvlNode rNode=null;
-            if (iNodeKey==Key)
+            CAvlNode rNode = null;
+            if (iNodeKey == Key)
             {
                 rNode = this;
             }
@@ -84,7 +102,7 @@ namespace wf_testLabs
                 if (RightSon != null)
                 {
                     rNode = RightSon.FindNode(iNodeKey);
-                }              
+                }
             }
             else
             {
@@ -92,8 +110,8 @@ namespace wf_testLabs
                 {
                     rNode = LeftSon.FindNode(iNodeKey);
                 }
-               
-            }            
+
+            }
             return rNode;
         }
         public void Dispose()
@@ -109,39 +127,102 @@ namespace wf_testLabs
             LeftSon = null;
             RightSon = null;
         }
-       
-        private void Balance()
+        public List<int> ToArray(List<int> aNodes, CAvlNode rRoot)
         {
-            int iHeightDifference = HeightDifference;
+            if (rRoot.LeftSon != null)
+            {
+                aNodes = ToArray(aNodes, rRoot.LeftSon);
+            }
+            aNodes.Add(rRoot.Key);
+            if (rRoot.RightSon != null)
+            {
+                aNodes = ToArray(aNodes, rRoot.RightSon);
+            }
+            return aNodes;
+        }
+        private CAvlNode FindMin(CAvlNode rRoot)
+        {
+            CAvlNode rMin;
+            if (rRoot.LeftSon != null)
+            {
+                rMin = FindMin(rRoot.LeftSon);
+            }
+            else
+            {
+                rMin = rRoot;
+            }
+            return rMin;
+        }
+        private CAvlNode DeleteMin(CAvlNode rRoot)
+        {
+            CAvlNode rNode;
+            if (rRoot.LeftSon == null)
+            {
+                rNode = rRoot.RightSon;
+            }
+            else
+            {
+                rRoot.LeftSon = DeleteMin(rRoot.LeftSon);
+                Balance(rRoot);
+                rNode = rRoot;
+            }
+            return rNode;
+        }
+        private CAvlNode Balance(CAvlNode rRoot)
+        {            
+            UpdateHeight(rRoot);
+            int iHeightDifference = rRoot.HeightDifference;
             if (iHeightDifference == 2)
             {
-                if (RightSon != null && RightSon.HeightDifference < 0)
+                if (rRoot.RightSon != null && rRoot.RightSon.HeightDifference < 0)
                 {
-                    RightSon.RightTurn();
+                    rRoot.RightSon= RightTurn(rRoot.RightSon);
                 }
-                LeftTurn();
+                rRoot=LeftTurn(rRoot);
             }
             else if (iHeightDifference == -2)
             {
-                if (LeftSon != null && LeftSon.HeightDifference > 0)
+                if (rRoot.LeftSon != null && rRoot.LeftSon.HeightDifference > 0)
                 {
-                    LeftSon.LeftTurn();
+                    rRoot.LeftSon =LeftTurn(rRoot.LeftSon);
                 }
-                RightTurn();
+                rRoot= RightTurn(rRoot);
+            }
+            return rRoot;
+        }
+        private CAvlNode RightTurn(CAvlNode rRoot)
+        {
+            CAvlNode rNode = rRoot.LeftSon;
+            rRoot.LeftSon = rNode.RightSon;
+            rNode.RightSon = rRoot;
+            UpdateHeight(rRoot);
+            UpdateHeight(rNode);
+            return rNode;
+        }
+        private CAvlNode LeftTurn(CAvlNode rRoot)
+        {
+            CAvlNode rNode = rRoot.RightSon;
+            rRoot.RightSon = rNode.LeftSon;
+            rNode.LeftSon = rRoot;
+            UpdateHeight(rRoot);
+            UpdateHeight(rNode);
+            return rNode;
+        }
+        private void UpdateHeight(CAvlNode rRoot)
+        {
+            if (rRoot != null)
+            {
+                int iHeightLeft = 0, iHeightRight = 0;
+                if (rRoot.LeftSon != null)
+                {
+                    iHeightLeft = rRoot.LeftSon.Height;
+                }
+                if (rRoot.RightSon != null)
+                {
+                    iHeightRight = rRoot.RightSon.Height;
+                }
+                rRoot.Height = Math.Max(iHeightRight, iHeightLeft) + 1;
             }
         }
-        private void RightTurn()
-        {
-            CAvlNode rNode = LeftSon;
-            LeftSon = rNode.RightSon;
-            rNode.RightSon = this;
-        }
-        private void LeftTurn()
-        {
-            CAvlNode rNode = RightSon;
-            RightSon = rNode.LeftSon;
-            rNode.LeftSon = this;
-        }
-
     }
 }
