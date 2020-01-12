@@ -63,8 +63,7 @@ namespace wf_testLabs
                         CAvlNode rMin = FindMin(rRight);
                         rMin.RightSon = DeleteMin(rRight);
                         rMin.LeftSon = rLeft;
-                        Balance(rMin);
-                        rNode = rMin;
+                        rNode = Balance(rMin);                        
                     }
                 }                
             }

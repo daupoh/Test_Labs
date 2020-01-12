@@ -40,7 +40,9 @@ namespace wf_testLabs
         {
             AddNodesToTree();
             m_rTree.DeleteNode(6);
+            Assert.IsTrue(m_rTree.ToArray().Length == 8, "Количество нод в дереве должно быть равно {0}", 8);
             m_rTree.DeleteNode(5);
+            Assert.IsTrue(m_rTree.ToArray().Length == 7, "Количество нод в дереве должно быть равно {0}, а равно {1}", 7,m_rTree.ToArray().Length);
             Assert.IsNull(m_rTree.FindNode(5),"Нода с ключом {0} должна быть удалена.",5);
             Assert.IsNull(m_rTree.FindNode(6), "Нода с ключом {0} должна быть удалена.", 6);
             Assert.IsNotNull(m_rTree.FindNode(3), "Нода с ключом {0} должна быть найдена.", 3);
