@@ -9,7 +9,7 @@ namespace wf_testLabs
             sDeikstraInvalidErrorText = "Невозможно найти кратчайший путь в пустом графе.",
             sDeikstraIncorrectErrorText = "Некорректная матрица путей.";
         public static double Random { get { return m_rRandom.NextDouble(); } }
-        public static void SelectionSort(double[] aSequence)
+        public static double[] SelectionSort(double[] aSequence)
         {
             if (aSequence == null || aSequence.Length == 0)
             {
@@ -25,6 +25,7 @@ namespace wf_testLabs
                     iStart++;
                 }
             }
+            return aSequence;
         }
         public static int[] DijkstraPath(double[][] aGraphDistances, int iStart, int iFinish)
         {
