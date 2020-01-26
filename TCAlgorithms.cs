@@ -35,8 +35,21 @@ namespace wf_testLabs
                 Assert.AreEqual(aSortedSequence[i], aSortSequence[i], "Элемент под номером {0} " +
                     "должен быть равен {1}, а фактически равен {2}", i, aSortedSequence[i], aSortSequence[i]);
             }
+        }
+        [Test, TestCaseSource("CorrectDataDejkstra")]
+        public void TestCorrectDataDejktsra(double[][] aGraph, int iStart, int iFinish, int[] aExpectedPath)
+        {
+            int[] aActualPath = SCAlgorithms.DijkstraPath(aGraph, iStart, iFinish);
+            Assert.AreEqual(aExpectedPath.Length, aActualPath.Length, "Длина массива должна быть равна {0},а равна {1}",
+                aExpectedPath.Length, aActualPath.Length);
+            for (int i = 0; i < aExpectedPath.Length; i++)
+            {
+                Assert.AreEqual(aExpectedPath[i], aActualPath[i], "Вершина в пути под номером {0} должна быть равна {1}" +
+                    ",а равна {2}", i, aExpectedPath[i], aActualPath[i]);
+            }
 
         }
+
         static object[] NonCorrectDataSelectionSort =
             {                
                 new object[] { null, SCAlgorithms.sSelectionSortErrorText },
@@ -50,6 +63,24 @@ namespace wf_testLabs
                 new object[] { new double[3]  {4,4,4}, new double[3]  { 4,4,4} },
             };
 
+        static object[] CorrectDataDejkstra =
+        {
+            new object[] { new double[][] {
+                                new double[] {0, 3, 5, 1 },
+                                new double[] {3, 0, 4, 8 }, 
+                                new double[] {5, 4, 0, 6 }, 
+                                new double[] {1, 8, 6, 0 } }
+                            ,1,3,
+                            new int[3] {1,0,3}},          
+            new object[] { new double[][] {
+                                new double[] { double.MaxValue, 2, double.MaxValue, double.MaxValue },
+                                new double[] { double.MaxValue, double.MaxValue, 3, double.MaxValue },
+                                new double[] { double.MaxValue, double.MaxValue, double.MaxValue, double.MaxValue },
+                                new double[] { double.MaxValue, 5, double.MaxValue, double.MaxValue } }
+                            ,0,2,
+                           new int[3] {0,1,2}},
+        };
 
+    
     }
 }

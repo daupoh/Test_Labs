@@ -7,7 +7,8 @@ namespace wf_testLabs
         public static Random m_rRandom=new Random();
         public static string sSelectionSortErrorText = "Невозможно отсортировать пустой массив.",
             sDeikstraInvalidErrorText = "Невозможно найти кратчайший путь в пустом графе.",
-            sDeikstraIncorrectErrorText = "Некорректная матрица путей.";
+            sDeikstraIncorrectErrorText = "Некорректная матрица путей.",
+            sDeikstraNoSuchPathErrorText = "Не существует пути между этими вершинами.";
         public static double Random { get { return m_rRandom.NextDouble(); } }
         public static double[] SelectionSort(double[] aSequence)
         {
@@ -29,39 +30,29 @@ namespace wf_testLabs
         }
         public static int[] DijkstraPath(double[][] aGraphDistances, int iStart, int iFinish)
         {
-            if (aGraphDistances == null || aGraphDistances.Length == 0 || iStart < 0 || iStart >= aGraphDistances.Length || iFinish < 0 || iFinish >= aGraphDistances.Length)
+            CheckPathGraphCorrect(aGraphDistances, iStart, iFinish);
+            int iVertexCount = aGraphDistances.Length,
+                iNextVertex;
+            int[] aVisited = new int[iVertexCount],
+                aClosestPath = new int[iVertexCount];
+            double[] aShortestDistances = new double[iVertexCount];
+            for (int i = 0; i < iVertexCount; i++)
             {
-                throw new InvalidOperationException(sDeikstraInvalidErrorText);
+                aShortestDistances[i] = double.MaxValue;
+                aVisited[i] = 0;
+                aClosestPath[i] = -1;
             }
-            else if (IsPathGraphCorrect(aGraphDistances))
-            {
-                int iVertexCount = aGraphDistances.Length,
-                    iNextVertex;
-                int[] aVisited = new int[iVertexCount], 
-                    aClosestPath = new int[iVertexCount];
-                double[] aShortestDistances = new double[iVertexCount];
-                for (int i = 0; i < iVertexCount; i++)
-                {
-                    aShortestDistances[i] = double.MaxValue;
-                    aVisited[i] = 0;
-                    aClosestPath[i] = -1;
-                }
-                aShortestDistances[iStart] = 0;
-                aVisited[iStart] = 1;
-                aClosestPath[iStart] = 0;
-                iNextVertex = UpdateDistances(iStart, aGraphDistances[iStart],aVisited,ref aClosestPath,ref aShortestDistances);
-                while (!AllVisited(aVisited))
-                {
-                    aVisited[iNextVertex] = 1;
-                    iNextVertex = UpdateDistances(iNextVertex, aGraphDistances[iNextVertex],aVisited,ref aClosestPath,ref aShortestDistances);                    
-                }                
-                return GetPath(aClosestPath,iStart,iFinish);
+            aShortestDistances[iStart] = 0;
+            aVisited[iStart] = 1;
+            aClosestPath[iStart] = 0;
+            iNextVertex = UpdateDistances(iStart, aGraphDistances[iStart], aVisited, ref aClosestPath, ref aShortestDistances);
+            while (!AllVisited(aVisited) && iNextVertex!=-1)
+            {              
+                aVisited[iNextVertex] = 1;
+                iNextVertex = UpdateDistances(iNextVertex, aGraphDistances[iNextVertex], aVisited, ref aClosestPath, ref aShortestDistances);
             }
-            else
-            {
-                throw new InvalidOperationException(sDeikstraInvalidErrorText);
-            }
-        }
+            return GetPath(aClosestPath, iStart, iFinish);
+        }         
         private static bool AllVisited(int[] aVisited)
         {
             bool bAllVisited = true;
@@ -81,7 +72,7 @@ namespace wf_testLabs
             int iMinPos = -1;
             for (int i = 0; i < aDistances.Length; i++)
             {
-                if (aDistances[i]>0 && aVisited[i]==0)
+                if (aDistances[i]>0 && aVisited[i]==0 && aDistances[i] != double.MaxValue)
                 {
                     Console.WriteLine("Compare {0} with {1}", aShortestDistances[iPosFrom] + aDistances[i], aShortestDistances[i]);
                     if (aShortestDistances[iPosFrom]+aDistances[i]<aShortestDistances[i])
@@ -113,6 +104,10 @@ namespace wf_testLabs
             while (iLastPos!=iStart)
             {
                 iLastPos = aClosestPath[iLastPos];
+                if (iLastPos<0)
+                {
+                    throw new InvalidOperationException(sDeikstraNoSuchPathErrorText);
+                }
                 aPath[iPos--] = iLastPos;
                 iLen++;
             }
@@ -128,21 +123,30 @@ namespace wf_testLabs
             return aResultPath;
         }
       
-       
-      
-        private static bool IsPathGraphCorrect(double[][] aPathGraph)
+        private static void CheckPathGraphCorrect(double[][] aPathGraph, int iStart, int iFinish)
         {
-            bool bIsIt = true;
-            int iVertexCount = aPathGraph.Length;
-            for (int i = 0; i < iVertexCount; i++)
+            if (aPathGraph == null || aPathGraph.Length == 0 || 
+                iStart < 0 || iStart >= aPathGraph.Length || iFinish < 0 || iFinish >= aPathGraph.Length)
             {
-                if (aPathGraph[i].Length != iVertexCount)
+                throw new InvalidOperationException(sDeikstraInvalidErrorText);
+            }
+            for (int i = 0; i < aPathGraph.Length; i++)
+            {
+                if (aPathGraph[i].Length==0)
                 {
-                    bIsIt = false;
-                    break;
+                    throw new InvalidOperationException(sDeikstraIncorrectErrorText);
+                }
+                else
+                {
+                    for (int j = 0; j < aPathGraph[i].Length; j++)
+                    {
+                        if (aPathGraph[i][j]<0)
+                        {
+                            throw new InvalidOperationException(sDeikstraIncorrectErrorText);
+                        }
+                    }
                 }
             }
-            return bIsIt;
         }
         private static int FindMin(double[] aSequence, int iStart)
         {
