@@ -14,15 +14,8 @@ namespace wf_testLabs.Pages
             STREET_INPUT = "//form[@class='header_box']//input[@name='street']",
             HOUSE_INPUT = "//form[@class='header_box']//input[@name='house']",
             FIND_BUTTON = "//form[@class='header_box']//button",
-            RESTAURANT = "//section[@class='list-page_catalog']/a",
-            MIN_FREEDELIVERY = "//p[@class='restoran-item_big'][1]",
-            COST_PRODUCT= "//div[@class='itool2-box']//p[@class='product-item_bonus']",
-            PRODUCT = "/div[contains(@class, 'col')]",
-         ROW_BONUS_PRODUCT    = "//section[@id='bonus-items']/div[@class='row items']",
-            ROW_PRODUCT = "//section[not(@id='bonus-items')]/div[@class='row items']",
-           CART_PANE = "//div[@class='cart-pane hide']",
-           CART_PANE_SUM = "//div[@class='cart-pane__sum']",
-            CART_PANE_SUBMIT = "//a[contains(@class,'btn')]"; 
+            RESTAURANT = "//section[@class='list-page_catalog']/a";
+         
 
          [FindsBy(How = How.XPath, Using = DELIVERY_CITY)]
         public IWebElement m_rDeliveryCity;
@@ -38,13 +31,7 @@ namespace wf_testLabs.Pages
 
         [FindsBy(How = How.XPath, Using = RESTAURANT)]
         public IList<IWebElement> m_aRestaurants;
-
-        [FindsBy(How = How.XPath, Using = ROW_PRODUCT)]
-        public IList<IWebElement> m_aRowsProduct;
-
-        [FindsBy(How = How.XPath, Using = ROW_BONUS_PRODUCT)]
-        public IList<IWebElement> m_aRowsBonusProduct;
-
+     
         public CMainPage (IWebDriver rDriver,double iWaitSeconds):base(rDriver, iWaitSeconds)
         {
 
@@ -61,9 +48,6 @@ namespace wf_testLabs.Pages
             m_rFindButton.Click();
             m_rWait.Until(m_rDriver => m_aRestaurants.Count>0);
         }
-        public void CreateOrder()
-        {
-
-        }
+        
     }
 }

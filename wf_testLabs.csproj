@@ -82,7 +82,9 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Pages\ACPage.cs" />
+    <Compile Include="Pages\CCartPane.cs" />
     <Compile Include="Pages\CMainPage.cs" />
+    <Compile Include="Pages\CRestaurantPage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TCZaka.cs" />
