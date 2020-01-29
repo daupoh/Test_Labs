@@ -82,11 +82,10 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Pages\ACPage.cs" />
-    <Compile Include="Pages\CLoginPage.cs" />
     <Compile Include="Pages\CMainPage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TCGoogleMail.cs" />
+    <Compile Include="TCZaka.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

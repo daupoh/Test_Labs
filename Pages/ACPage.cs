@@ -18,11 +18,13 @@ namespace wf_testLabs.Pages
             {
                 m_rDriver = rDriver;
                 m_rWait = new WebDriverWait(m_rDriver, TimeSpan.FromSeconds(iWaitSeconds));
+                m_rDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(iWaitSeconds);
             }
             else
             {
                 throw new InvalidOperationException("");
             }
-        }    
+        }
+        public abstract void OnPage();
     }
 }
