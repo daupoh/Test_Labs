@@ -14,10 +14,10 @@ namespace wf_testLabs.Pages
             STREET_INPUT = "//form[@class='header_box']//input[@name='street']",
             HOUSE_INPUT = "//form[@class='header_box']//input[@name='house']",
             FIND_BUTTON = "//form[@class='header_box']//button",
-            RESTAURANT = "//section[@class='list-page_catalog']/a";
-         
+            RESTAURANT = "//section[@class='list-page_catalog']/a",
+        ALL_RESTAURANTS = "//a[.//div[contains(@class,'catalog-ico-restaurant')]]";         
 
-         [FindsBy(How = How.XPath, Using = DELIVERY_CITY)]
+        [FindsBy(How = How.XPath, Using = DELIVERY_CITY)]
         public IWebElement m_rDeliveryCity;
 
         [FindsBy(How = How.XPath, Using = STREET_INPUT)]
@@ -28,6 +28,9 @@ namespace wf_testLabs.Pages
 
         [FindsBy(How = How.XPath, Using = FIND_BUTTON)]
         public IWebElement m_rFindButton;
+
+        [FindsBy(How = How.XPath, Using = ALL_RESTAURANTS)]
+        public IWebElement m_rAllRestaurants;
 
         [FindsBy(How = How.XPath, Using = RESTAURANT)]
         public IList<IWebElement> m_aRestaurants;
@@ -40,13 +43,22 @@ namespace wf_testLabs.Pages
         {
             m_rWait.Until(m_rDriver => m_rDeliveryCity.Text == "Белгород");
             m_rWait.Until(m_rDriver => m_rFindButton.Text.ToLower().Contains("найти рестораны"));
+            m_rWait.Until(m_rDriver => m_rAllRestaurants.Displayed);
         }
         public void FindRestaurants(string sStreet, string sHouse)
         {
+            m_rWait.Until(m_rDriver => m_rFindButton.Displayed);
             m_rDeliveryStreet.SendKeys(sStreet);
             m_rDeliveryHouse.SendKeys(sHouse);
             m_rFindButton.Click();
             m_rWait.Until(m_rDriver => m_aRestaurants.Count>0);
+            m_aRestaurants[0].Click();
+        }
+        public void ToRestaurantPage()
+        {
+            m_rAllRestaurants.Click();
+            m_rWait.Until(m_rDriver => m_aRestaurants.Count > 0);
+            m_aRestaurants[0].Click();
         }
         
     }
