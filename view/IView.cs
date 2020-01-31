@@ -12,7 +12,9 @@ namespace wf_testLabs.view
         string Surname { get;  }
         string City { get;  }
         string Country { get;  }
-       
+        string ImageLocation { get; }
+
+
         string[] GetFields();
         void GetInformation(string _UserId);
        

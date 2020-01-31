@@ -10,17 +10,24 @@ namespace wf_testLabs.controller
     {
         public string GetCityById(string CityId)
         {
-            throw new NotImplementedException();
+            return "Берлин";
         }
 
         public string GetCountryById(string CountryId)
         {
-            throw new NotImplementedException();
+            return "Германия";
         }
 
         public Dictionary<string, string> GetInformation(string UserId, string[] Fields)
         {
-            throw new NotImplementedException();
+            return new Dictionary<string, string>()
+            {
+                { "photo_max","https://image.jpg" },
+                { "first_name","Евгений" },
+                { "last_name","Стоялов" },
+                { "country","Россия" },
+                { "city","Белгород" }
+            };
         }
     }
 }

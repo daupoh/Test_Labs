@@ -13,6 +13,8 @@ namespace wf_testLabs.view
         public string City { get => "Королевская гавань"; set => throw new NotImplementedException(); }
         public string Country { get => "Семь королевств"; set => throw new NotImplementedException(); }
 
+        public string ImageLocation => "https://image.jpg";
+
         public string[] GetFields()
         {
             return new string[] { "Григор", "Клиган", "Королевская гавань", "Семь королевств" };

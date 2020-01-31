@@ -20,7 +20,7 @@ namespace wf_testLabs
             m_rVkApi = new CVkApi(sAppId);
             _Token = m_rVkApi.GetToken();
         }
-        public CViewApi(CVkApi rVkApi)
+        public CViewApi(IVkApi rVkApi)
         {
             m_rVkApi = rVkApi;
             _Token = m_rVkApi.GetToken();
@@ -37,14 +37,14 @@ namespace wf_testLabs
         {
             Dictionary<string, string> Dict = JsonConvert.
                 DeserializeObject<Dictionary<string, string>>(m_rVkApi.GetCity(CityId, _Token));
-            return Dict["name"];
+            return Dict["title"];
         }
 
         public string GetCountryById(string CountryId)  //Перевод ID страны в название
         {           
             Dictionary<string, string> Dict = JsonConvert
                 .DeserializeObject<Dictionary<string, string>>(m_rVkApi.GetCountry(CountryId, _Token));
-            return Dict["name"];
+            return Dict["title"];
         }
     }
 }

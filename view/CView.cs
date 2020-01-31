@@ -21,7 +21,7 @@ namespace wf_testLabs.view
         {
             m_rViewApi = new CViewApi(sAppId);
         }
-        public CView(CViewApi rViewApi)
+        public CView(IViewApi rViewApi)
         {
             m_rViewApi = rViewApi;
         }

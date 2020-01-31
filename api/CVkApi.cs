@@ -51,8 +51,8 @@ namespace wf_testLabs.api
                "https://oauth.vk.com/blank.html&scope=friends&response_type=token&v=5.52";
             string sButtonAccesXpath = "//button[contains(@class,'button_indent')]",
                 sWarningXPath = "//b[.='не копируйте']";
-            rDriver.FindElement(By.XPath(sButtonAccesXpath));
-            //rDriver.FindElement(By.XPath(sWarningXPath));
+            //rDriver.FindElement(By.XPath(sButtonAccesXpath));
+            rDriver.FindElement(By.XPath(sWarningXPath));
             char[] Symbols = { '=', '&' };
             string[] URL = rDriver.Url.ToString().Split(Symbols);
             File.WriteAllText("UserInf.txt", URL[1] + "\n");
