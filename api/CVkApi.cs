@@ -54,10 +54,8 @@ namespace wf_testLabs.api
             //rDriver.FindElement(By.XPath(sButtonAccesXpath));
             rDriver.FindElement(By.XPath(sWarningXPath));
             char[] Symbols = { '=', '&' };
-            string[] URL = rDriver.Url.ToString().Split(Symbols);
-            File.WriteAllText("UserInf.txt", URL[1] + "\n");
-            sToken = URL[1];
-            File.AppendAllText("UserInf.txt", URL[5]);
+            string[] URL = rDriver.Url.ToString().Split(Symbols);           
+            sToken = URL[1];           
             rDriver.Quit();
             rDriver = null;
             return sToken;
